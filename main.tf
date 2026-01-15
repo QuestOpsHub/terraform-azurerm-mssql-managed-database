@@ -2,11 +2,11 @@
 # MSSQL Managed Database
 #------------------------
 resource "azurerm_mssql_managed_database" "mssql_managed_database" {
-  name                = var.mssql_managed_database_name
+  name                = var.name
   managed_instance_id = var.managed_instance_id
 
   dynamic "long_term_retention_policy" {
-    for_each = try(var.long_term_retention_policy, {}) != {} ? [1] : []
+    for_each = try(var.long_term_retention_policy, {}) != {} ? [var.long_term_retention_policy] : []
     content {
       weekly_retention  = lookup(long_term_retention_policy.value, "weekly_retention", null)
       monthly_retention = lookup(long_term_retention_policy.value, "monthly_retention", null)
